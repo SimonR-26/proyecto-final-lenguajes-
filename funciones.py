@@ -1,11 +1,11 @@
-"""Operaciones de la boveda. Aqui no se construyen ventanas."""
+#Operaciones de la boveda. Aqui no se construyen ventanas.
 
 import secrets
 import string
 
 
 def validar_registro(sitio, usuario, contraseña):
-    """Comprueba los campos obligatorios de un registro."""
+    #Comprueba los campos obligatorios de un registro.
     if sitio.strip() == "":
         return False, "El sitio es obligatorio."
     if contraseña == "":
@@ -14,7 +14,7 @@ def validar_registro(sitio, usuario, contraseña):
 
 
 def crear_registro(sitio, usuario, contraseña, notas):
-    """Crea y devuelve un registro como diccionario."""
+    #Crea y devuelve un registro como diccionario.
     registro = {
         "id": secrets.token_hex(8),
         "site": sitio.strip(),
@@ -30,7 +30,7 @@ def agregar_registro(registros, registro):
 
 
 def buscar_registros(registros, texto):
-    """Devuelve los registros cuyo sitio o usuario coincide con la busqueda."""
+    #Devuelve los registros cuyo sitio o usuario coincide con la busqueda.
     encontrados = []
     texto = texto.lower().strip()
 
@@ -75,7 +75,7 @@ def eliminar_registro(registros, identificador):
 
 
 def generar_contraseña(longitud, usar_simbolos):
-    """Genera una contraseña aleatoria usando el modulo secrets."""
+    #Genera una contraseña aleatoria usando el modulo secrets.
     letras_numeros = string.ascii_letters + string.digits
     simbolos = "!@#$%^&*()-_=+"
 
@@ -94,7 +94,7 @@ def generar_contraseña(longitud, usar_simbolos):
 
 
 def calcular_estadisticas(registros):
-    """Calcula indicadores sin mostrar las contraseñas guardadas."""
+    #Calcula indicadores sin mostrar las contraseñas guardadas.
     total_registros = len(registros)
     sitios = []
     registros_con_usuario = 0
@@ -121,7 +121,7 @@ def calcular_estadisticas(registros):
 
 
 def contar_registros_por_sitio(registros):
-    """Cuenta cuantos registros hay para cada sitio."""
+    #Cuenta cuantos registros hay para cada sitio.
     sitios = []
     cantidades = []
 

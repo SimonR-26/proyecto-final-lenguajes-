@@ -1,18 +1,6 @@
-"""
-crypto_utils.py
-----------------
-Funciones responsables de convertir la contraseña maestra en una llave de
-cifrado, y de cifrar/descifrar el contenido de la bóveda (vault.enc).
+#Funciones responsables de convertir la contraseña maestra en una llave de
+#cifrado, y de cifrar/descifrar el contenido de la bóveda.
 
-Técnica usada:
-- PBKDF2-HMAC-SHA256 para derivar una llave de 32 bytes a partir de la
-  contraseña maestra + una sal aleatoria (esto evita ataques de diccionario
-  precalculados / rainbow tables).
-- Fernet (de la librería `cryptography`) para el cifrado simétrico de los
-  datos. Fernet ya incluye autenticación (si alguien altera el archivo
-  cifrado o si la contraseña es incorrecta, `decrypt_data` lanzará
-  `InvalidToken`).
-"""
 
 import os
 import json
@@ -23,17 +11,17 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 SALT_SIZE = 16
-KDF_ITERATIONS = 390_000  # recomendación actual de OWASP para PBKDF2-SHA256
+KDF_ITERATIONS = 390_000  
 
 
 def generate_salt() -> bytes:
-    """Genera una sal aleatoria criptográficamente segura."""
+    #Genera una sal aleatoria criptográficamente segura.
     return os.urandom(SALT_SIZE)
 
 
 def derive_key(master_password: str, salt: bytes) -> bytes:
-    """Deriva una llave Fernet (32 bytes, base64) a partir de la contraseña
-    maestra y la sal almacenada."""
+    #Deriva una llave Fernet (32 bytes, base64) a partir de la contraseña
+    #maestra y la sal almacenada
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256(),
         length=32,
@@ -45,18 +33,17 @@ def derive_key(master_password: str, salt: bytes) -> bytes:
 
 
 def encrypt_data(data: dict, key: bytes) -> bytes:
-    """Serializa un diccionario a JSON y lo cifra con Fernet."""
+    #Serializa un diccionario a JSON y lo cifra con Fernet.
     fernet = Fernet(key)
     plaintext = json.dumps(data).encode("utf-8")
     return fernet.encrypt(plaintext)
 
 
 def decrypt_data(token: bytes, key: bytes) -> dict:
-    """Descifra un token Fernet y lo convierte de vuelta a diccionario.
+    #Descifra un token Fernet y lo convierte de vuelta a diccionario.
 
-    Lanza `cryptography.fernet.InvalidToken` si la llave (es decir, la
-    contraseña maestra) es incorrecta o si el archivo fue alterado.
-    """
+    #Lanza `cryptography.fernet.InvalidToken` si la llave (es decir, la
+    #contraseña maestra) es incorrecta o si el archivo fue alterado.
     fernet = Fernet(key)
     plaintext = fernet.decrypt(token)
     return json.loads(plaintext.decode("utf-8"))

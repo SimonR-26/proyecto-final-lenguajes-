@@ -1,4 +1,4 @@
-"""Aplicacion de escritorio Boveda usando Tkinter."""
+"""Aplicacion de escritorio Boveda """
 
 import tkinter as tk
 from tkinter import ttk, messagebox

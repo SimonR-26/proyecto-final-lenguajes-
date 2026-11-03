@@ -1,4 +1,4 @@
-"""Funciones sencillas para guardar y recuperar la boveda cifrada."""
+#Funciones sencillas para guardar y recuperar la boveda cifrada.
 
 import os
 
@@ -10,14 +10,14 @@ ARCHIVO_BOVEDA = os.path.join(CARPETA_DATOS, "vault.enc")
 
 
 def existe_boveda():
-    """Comprueba si ya existe la sal y el archivo cifrado."""
+    #Comprueba si ya existe la sal y el archivo cifrado.
     if os.path.exists(ARCHIVO_SAL) and os.path.exists(ARCHIVO_BOVEDA):
         return True
     return False
 
 
 def crear_boveda(contraseña_maestra):
-    """Crea la sal, obtiene la llave y guarda una boveda vacia."""
+    #Crea la sal, obtiene la llave y guarda una boveda vacia.
     os.makedirs(CARPETA_DATOS, exist_ok=True)
     sal = generate_salt()
     llave = derive_key(contraseña_maestra, sal)
@@ -30,7 +30,7 @@ def crear_boveda(contraseña_maestra):
 
 
 def cargar_datos(llave):
-    """Lee el archivo cifrado y devuelve los registros."""
+    #Lee el archivo cifrado y devuelve los registros.
     with open(ARCHIVO_BOVEDA, "rb") as archivo:
         contenido_cifrado = archivo.read()
 
@@ -39,7 +39,7 @@ def cargar_datos(llave):
 
 
 def guardar_datos(datos, llave):
-    """Cifra los registros y los guarda en el disco."""
+    #Cifra los registros y los guarda en el disco.
     os.makedirs(CARPETA_DATOS, exist_ok=True)
     contenido_cifrado = encrypt_data(datos, llave)
 
@@ -48,7 +48,7 @@ def guardar_datos(datos, llave):
 
 
 def obtener_llave(contraseña_maestra):
-    """Obtiene la llave usando la contraseña maestra y la sal guardada."""
+    #Obtiene la llave usando la contraseña maestra y la sal guardada.
     with open(ARCHIVO_SAL, "rb") as archivo:
         sal = archivo.read()
 
